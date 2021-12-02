@@ -34,12 +34,19 @@ Read through ALL the steps below before attempting this conversion.
  stuff and go directly to the command prompt.) 
 
     rpi-rw
+    
     uuid=$(ls -la /dev/disk/by-partuuid | sed -n 's/^.* \([[:alnum:]]*-[0-9]* \).*/\1/p' | sed -n 's/\(.*\)-.*/\1/p' | head -n 1)
+    
     sudo sed -i.bak "s|\/dev\/mmcblk0p2 |PARTUUID=$uuid-02 |g" /boot/cmdline.txt
+    
     sudo sed -i.bak "s|\/dev\/mmcblk0p1|PARTUUID=$uuid-01|g" /etc/fstab
+    
     sudo sed -i "s|\/dev\/mmcblk0p2|PARTUUID=$uuid-02|g" /etc/fstab
+    
     sudo sed -i.bak "s/mmcblk0p2 /\x2e\x2a /g" /etc/bash.bashrc
+    
     source /etc/bash.bashrc
+    
     rpi-ro
 
   Alternately, you can download and run these commands from GIT:
