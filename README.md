@@ -11,7 +11,7 @@ a specific device type to a generic device type so that the system can
 then be booted from either a mSD *or* uSD port.
 
 So the migration process simply consists of modifying an existing system
-a uSD device and cloning it to an USB device.
+on a uSD device and cloning it to an USB device.
 
 The outline of the migration process given below assumes you know your 
 way around Rpi's, Pi-Star, Linux and the command line, editors, etc.
