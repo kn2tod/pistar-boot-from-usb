@@ -11,7 +11,13 @@ a specific device type to a generic device type so that the system can
 then be booted from either a mSD *or* uSD port.
 
 So the migration process simply consists of modifying an existing system
-a uSD device and cloning it to an USB device.
+a uSD device and cloning it to an uSD device.
+
+(For the purposes of this documention, I use "mSD" to denote MultiMedia
+cards (commonly referred to as "micro" cards), typically used in 
+Raspberry Pi's; "uSD" is used to denote an appropriate device attached
+via a USB port on the Pi, either a true USB-type device or other device
+connected via an USB adapter.)
 
 The outline of the migration process given below assumes you know your 
 way around Rpi's, Pi-Star, Linux and the command line, editors, etc.
@@ -29,8 +35,8 @@ Read through ALL the steps below before attempting this conversion.
  your wpa_supplicant.conf file into the boot directory so you can log 
  into the system after boot.  Or work off the Pi-Star-Setup Access Point.
 
-2) Once you've booted up this image, log into the command (SSH) 
- terminal, run the following commands.  (Skip all the usual configuration
+2) Once you've booted up this image, log into the command (SSH) terminal
+ and run the following commands.  (Skip all the usual configuration
  stuff and go directly to the command prompt.) 
 
     rpi-rw
@@ -47,13 +53,16 @@ Read through ALL the steps below before attempting this conversion.
     wget 'https://raw.githubusercontent.com/kn2tod/pistar-boot-from-usb/main/Fix-Pi-Star-Boots.sh'
     sudo bash Fix-Pi-Star-Boots.sh
 
+  The scripts create backups (.bak files) of the cmdline.txt and fstab files in the 
+  appropriate directories, in case you run into problems.
+
 4) Reboot your mSD to make sure the image still works, that you haven't made any
   typos. Skip further configuring here - you can do all that AFTER you boot your uSD 
   system. Shut it down again.
 
 5) Using BalenaEtcher again, clone the mSD to a uSD (USB drive).
 
-  Use a GOOD USB drive. 32gb is more than enough.  Some drives are simply sloooooow, so you may
+  Use a GOOD uSD drive. 32gb is more than enough.  Some drives are simply sloooooow, so you may
   have to try several different brands/models.  Unfortunately, you won't know which drives are
   better/faster until you give 'em a try in step 6.
 
@@ -61,7 +70,8 @@ Read through ALL the steps below before attempting this conversion.
   a copy of that zip file into the /boot directory.
 
 6) Boot'er up and complete the configuration process same as you would have done for the mSD.
-  (or let the system work it's magic and configure the system from the zip backup).
+  (or let the system work it's magic and configure the system from the zip backup). Either one
+  of the USB 3.0 ports should be used here.
 
 ---
 
@@ -73,7 +83,7 @@ you are copying be up-to-date here.
 
 Boot up the copy and run the commands from step 3. 
 
-Then clone this revised version to a USB and boot it (steps 5 + 6).  You should be up and 
+Then clone this revised version to a uSD and boot it (steps 5 + 6).  You should be up and 
 running instantly.
 
 or
@@ -96,9 +106,9 @@ uSD system can be cloned back to an mSD and redeployed to older Pi's, if the nee
 
 Post-migration: 
 
-Your new USB retains the orginal allocation sizes set on the mSD's and does not automatically
-increase when you first boot up your USB.  The same allocation sizes that worked for the mSD's
-still work for USB's.  (Issue "df -h" command before/after migration to verify this.)
+Your new uSD retains the orginal allocation sizes set on the mSD's and does not automatically
+increase when you first boot it up.  The same allocation sizes that worked for the mSD's
+still work for uSD's.  (Issue "df -h" command before/after migration to verify this.)
 
 Raspi-Config does not exist natively in Pi-Star, but it can be installed (sudo apt install 
 raspi-config) and then run to effect an expansion, if you see a need.
