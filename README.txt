@@ -1,43 +1,65 @@
 Booting Pi-Star from a USB on a Pi4!
 
-An existing system on an mSD card can be cloned to a USB and made to 
-boot natively on Raspberry Pi4's!
+Modifications can be made to an existing or new image of a Pi-Star
+system such that it can boot natively on Raspberry Pi4's.
 
-           THIS ONLY WORKS FOR BOOTING ON Pi4's!!!
+All the current Rasp-Pi versions (up to Buster) are hard-wired to
+use Micro SD (block) devices. The key is to rewire the installation
+image to use a generic device type so that the system can then be booted
+from either a mSD *or* uSD port.
 
-All the current Rasp-Pi versions (up through Buster) are hard-wired to
-use Micro SD (block) devices. The key is to rewire the system from using
-a specific device type to a generic device type so that the system can
-then be booted from either a mSD *or* uSD port.
+This modification is both simple AND tranparent: it does not effect the
+continued use of mSD cards going forward, but the mod IS required to be 
+able to boot from uSD ports on Pi4's.
 
-So the migration process simply consists of modifying an existing system
-a uSD device and cloning it to an uSD device.
+Note:  ONLY Pi4's CAN BOOT DIRECTLY FROM USB PORTS!
 
-(For the purposes of this documention, I use "mSD" to denote MultiMedia
-cards (commonly referred to as "micro" cards), typically used in 
-Raspberry Pi's; "uSD" is used to denote an appropriate device attached
+[For the purposes of this documention, the term "mSD" is used to denote
+MultiMedia cards (commonly referred to as "micro" cards), typically used
+in Raspberry Pi's; "uSD" is used to denote an appropriate device attached
 via a USB port on the Pi, either a true USB-type device or other device
-connected via an USB adapter.)
+connected via a USB adapter.]
 
-The outline of the migration process given below assumes you know your 
-way around Rpi's, Pi-Star, Linux and the command line, editors, etc.
+[The outline of the conversion process given below assumes you know your 
+way around Rpi's, Pi-Star, Linux and the command line, editors, etc. All
+the development and testing involved using the lastest versions of
+PiImager and BalenaEtcher.]
 
-Read through ALL the steps below before attempting this conversion.
-
-      REPEAT!  THIS ONLY WORKS FOR BOOTING ON Pi4's!!!
+Carefully read through ALL the steps below before attempting this conversion.
+Instructions apply to either modifying/cloning an existing system or to
+starting from scratch with a new image.
 
 ---
 
 1) Prepare a new image on a spare mSD.  Build it with latest download:  
  <http://www.pistar.uk/downloads/Pi-Star_RPi_V4.1.5_30-Oct-2021.zip>.
- You can use BalenaEtcher here to download and burn directly from the URL.
+ You can use BalenaEtcher here to download and burn directly from the URL,
+ or use PiImager with an unzipped copy of the image using the Custom Install
+ selection.  
+
  Do what you would normally do to gain access to this new image: drop 
  your wpa_supplicant.conf file into the boot directory so you can log 
  into the system after boot.  Or work off the Pi-Star-Setup Access Point.
 
-2) Once you've booted up this image, log into the command (SSH) terminal
- and run the following commands.  (Skip all the usual configuration
- stuff and go directly to the command prompt.) 
+ *IF* starting with a new build, consider using a smaller mSD (8gb or 16gb)
+ so as to cut down on the cloning time later; the target device can be the 
+ same or larger size.  See note A below.
+
+ Alternately, you can use an existing mSD image or a clone of an existing
+ system for the following steps.  Best that this system be up-to-date, at
+ least from a Raspian perspective.
+
+2) Once you've booted up this image, log into the command terminal (SSH)
+ and run the following commands.  (If this is a new build, skip all the 
+ usual configuration  stuff and go directly to the command prompt - you
+ can configure later, after you get to your new device.) 
+
+ With Internet access (easiest, safest bet), run the required commands from GIT:
+
+    wget 'https://raw.githubusercontent.com/kn2tod/pistar-boot-from-usb/main/Fix-Pi-Star-Boots.sh'
+    sudo bash Fix-Pi-Star-Boots.sh
+
+ Without Internet access, key in these commands (or copy them off of GIT off-line):
 
     rpi-rw
     uuid=$(ls -la /dev/disk/by-partuuid | sed -n 's/^.* \([[:alnum:]]*-[0-9]* \).*/\1/p' | sed -n 's/\(.*\)-.*/\1/p' | head -n 1)
@@ -48,19 +70,21 @@ Read through ALL the steps below before attempting this conversion.
     source /etc/bash.bashrc
     rpi-ro
 
-  Alternately, you can download and run these commands from GIT:
+  Either way, the scripts create backups of all the effecte files in the 
+  appropriate directories, in case you run into problems.  See note B.
 
-    wget 'https://raw.githubusercontent.com/kn2tod/pistar-boot-from-usb/main/Fix-Pi-Star-Boots.sh'
-    sudo bash Fix-Pi-Star-Boots.sh
+  *IF* this is a new build, and you have an appropriate configuration backup from a working
+  system, you can drop this into the /boot directory at this time.  See note C.
 
-  The scripts create backups (.bak files) of the cmdline.txt and fstab files in the 
-  appropriate directories, in case you run into problems.
+3) Reboot your mSD to make sure the image still works, that you haven't made any typos. 
+  Skip further configuring here - you can do all that AFTER you boot your uSD system. 
 
-4) Reboot your mSD to make sure the image still works, that you haven't made any
-  typos. Skip further configuring here - you can do all that AFTER you boot your uSD 
-  system. Shut it down again.
+  Or, again, if you have a configuration backup that you didn't drop into the /boot
+  directory in step 2, you can do it now.  See note C.
 
-5) Using BalenaEtcher again, clone the mSD to a uSD (USB drive).
+  Shut down the system properly, less you corrupt the mSD.
+
+4) Clone the mSD to a uSD (USB drive) - BalenaEtcher is a good choice here.
 
   Use a GOOD uSD drive. 32gb is more than enough.  Some drives are simply sloooooow, so you may
   have to try several different brands/models.  Unfortunately, you won't know which drives are
@@ -69,53 +93,58 @@ Read through ALL the steps below before attempting this conversion.
   *IF* you have a config backup from a prior working system, this would be the time to drop
   a copy of that zip file into the /boot directory.
 
-6) Boot'er up and complete the configuration process same as you would have done for the mSD.
-  (or let the system work it's magic and configure the system from the zip backup). Either one
-  of the USB 3.0 ports should be used here.
+5) Boot up the new/revised drive and complete the configuration process same as you would have 
+  done for the mSD (or let the system work its magic and configure the system from the zip 
+  backup). Either one of the (blue) USB 3.0 ports can be used here.
+
+  *IF* you got to this point using an existing, working system, you should be up and running
+  without any further problems.
 
 ---
 
-For those who have been working with Pi-Star for a while should know, there are some
-shortcuts you can take here:
+In Summary (Quick Guide):
 
-Clone your existing working system to another mSD (just in case).  Best that the system
-you are copying be up-to-date here. 
+1) On a new or existing system, log into the command terminal (SSH) and 
+   run these commands (ref step 2 above):
 
-Boot up the copy and run the commands from step 3. 
+    rpi-rw
+    wget 'https://raw.githubusercontent.com/kn2tod/pistar-boot-from-usb/main/Fix-Pi-Star-Boots.sh'
+    sudo bash Fix-Pi-Star-Boots.sh
 
-Then clone this revised version to a uSD and boot it (steps 5 + 6).  You should be up and 
-running instantly.
+2) Clone the mSD to a uSD (USB drive).
 
-or
+3) Plug the uSD into a Pi4 - you should be up and running in no time!
 
-Live dangerously: run step 3 on your working system, then clone and boot (steps 5 + 6).
-Again, you should be up and running in no time.  
 
 ---
 
 Notes:
 
-Configuration backups from PiZero-Pi3 systems should work just fine here, so this ends up 
-being an easy why to migrate to better hardware (uSD's and Pi4's) at the same time.
+A) All clones, either mSD's or uSD's, retain the partition allocation sizes set on the orignal
+  mSD's and does not automatically increase when you boot up the copies.
 
-The system modifications in step 3 can be applied to any system; their effect is transparent
-when running from a mSD; they are required if running from a uSD. Translation: a working
-uSD system can be cloned back to an mSD and redeployed to older Pi's, if the need arises.
+  Raspi-Config does not exist natively in Pi-Star, but it can be installed (sudo apt install 
+  raspi-config) and then run to effect an expansion, if you see a need.
+
+B) The system modifications in step 2 can be applied to any system; their effect is transparent
+  when running from a mSD; they are required if running from a uSD. 
+
+  Translation: a working uSD system can be cloned back to an mSD and redeployed to older Pi's,
+  if the need arises.
+
+  Further, the the image created in steps 1 and 2 can be cloned over and over again; your 
+  favorite  command line customizations (e.g. bash-aliases, etc) and utilites (e.g. htop, tree, 
+  raspi-config, etc.) can pre-installed on this initial image before cloning.  The image can 
+  then be cloned for implementation and subsequent configuration on ANY Raspberry model.
+
+C) Dropping Pi-Star configuration backups from existing systems into the /boot directory 
+  at this step makes this an easy why to migrate to better hardware (uSD's and Pi4's) at the 
+  same time.
+
 
 ---
 
-Post-migration: 
-
-Your new uSD retains the orginal allocation sizes set on the mSD's and does not automatically
-increase when you first boot it up.  The same allocation sizes that worked for the mSD's
-still work for uSD's.  (Issue "df -h" command before/after migration to verify this.)
-
-Raspi-Config does not exist natively in Pi-Star, but it can be installed (sudo apt install 
-raspi-config) and then run to effect an expansion, if you see a need.
-
----
-
-kn2tod
+kn2tod (@arrl.net)
 mark
  
 
