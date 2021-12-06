@@ -3,10 +3,12 @@ Booting Pi-Star from a USB on a Pi4!
 Modifications can be made to an existing or new image of a Pi-Star
 system such that it can boot from USB's directly on Raspberry Pi4's.
 
-All the current Rasp-Pi versions (up to Buster) are hard-wired to
-use Micro SD (block) devices. The key is to rewire the installation
-image to use a generic device type so that the system can then be booted
-from either a mSD *or* uSD port.
+All the current Pi-Star versions are hard-wired to use Micro SD (block)
+devices. The key is to rewire the installation image to use a generic 
+device type so that the system can then be booted from either an mSD *or* 
+a uSD port. (This form of booting has always been around in the underlying
+Raspbian base since at least the Jessie/Buster versions but for some reason 
+has never been brought forward into the current images of Pi-Star.)
 
 This modification is both simple AND tranparent: it does not effect the
 continued use of mSD cards going forward, but the mod IS required to be 
