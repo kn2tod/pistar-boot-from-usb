@@ -1,7 +1,7 @@
 Booting Pi-Star from a USB on a Pi4!
 
 Modifications can be made to an existing or new image of a Pi-Star
-system such that it can boot natively on Raspberry Pi4's.
+system such that it can boot from USB's directly on Raspberry Pi4's.
 
 All the current Rasp-Pi versions (up to Buster) are hard-wired to
 use Micro SD (block) devices. The key is to rewire the installation
@@ -45,9 +45,9 @@ starting from scratch with a new image.
  so as to cut down on the cloning time later; the target device can be the 
  same or larger size.  See note A below.
 
- Alternately, you can use an existing mSD image or a clone of an existing
- system for the following steps.  Best that this system be up-to-date, at
- least from a Raspian perspective.
+ *OR* you can use an existing mSD image or a clone of an existing system
+ for the following steps.  Best that this system be up-to-date, at least
+ from a Raspian perspective.
 
 2) Once you've booted up this image, log into the command terminal (SSH)
  and run the following commands.  (If this is a new build, skip all the 
@@ -70,17 +70,17 @@ starting from scratch with a new image.
     source /etc/bash.bashrc
     rpi-ro
 
-  Either way, the scripts create backups of all the effecte files in the 
-  appropriate directories, in case you run into problems.  See note B.
+  Either way, the scripts create backups of all the effected files in the 
+  appropriate directories, in case you run into problems.  (See note B.)
 
   *IF* this is a new build, and you have an appropriate configuration backup from a working
-  system, you can drop this into the /boot directory at this time.  See note C.
+  system, you can drop this into the /boot directory at this time.  (See note C.)
 
 3) Reboot your mSD to make sure the image still works, that you haven't made any typos. 
   Skip further configuring here - you can do all that AFTER you boot your uSD system. 
 
   Or, again, if you have a configuration backup that you didn't drop into the /boot
-  directory in step 2, you can do it now.  See note C.
+  directory in step 2, you can do it now.  (See note C.)
 
   Shut down the system properly, less you corrupt the mSD.
 
