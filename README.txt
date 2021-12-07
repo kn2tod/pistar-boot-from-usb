@@ -11,7 +11,7 @@ Raspbian base since at least the Jessie/Buster versions but for some reason
 has never been brought forward into the current images of Pi-Star.)
 
 This modification is both simple AND tranparent: it does not effect the
-continued use of mSD cards going forward, but the mod IS required to be 
+continued use of systems running off mSD cards, but IS required to be 
 able to boot from uSD ports on Pi4's.
 
 Note:  ONLY Pi4's CAN BOOT DIRECTLY FROM USB PORTS!
@@ -90,7 +90,7 @@ starting from scratch with a new image.
 
   Use a GOOD uSD drive. 32gb is more than enough.  Some drives are simply sloooooow, so you may
   have to try several different brands/models.  Unfortunately, you won't know which drives are
-  better/faster until you give 'em a try in step 6.
+  better/faster until you give 'em a try in step 5.
 
   *IF* you have a config backup from a prior working system, this would be the time to drop
   a copy of that zip file into the /boot directory.
@@ -140,9 +140,23 @@ B) The system modifications in step 2 can be applied to any system; their effect
   then be cloned for implementation and subsequent configuration on ANY Raspberry model.
 
 C) Dropping Pi-Star configuration backups from existing systems into the /boot directory 
-  at this step makes this an easy why to migrate to better hardware (uSD's and Pi4's) at the 
+  at this step makes this an easy way to migrate to better hardware (uSD's and Pi4's) at the 
   same time.
 
+
+---
+
+ref:
+
+<https://www.balena.io/etcher/>
+<https://www.raspberrypi.com/software/>
+
+<https://elinux.org/RPi_SD_cards>
+
+<https://www.tomshardware.com/how-to/boot-raspberry-pi-4-usb>
+<https://www.zdnet.com/article/booting-my-raspberry-pi-4-from-a-usb-device/>
+<https://tynick.com/blog/05-22-2020/raspberry-pi-4-boot-from-usb/>
+<https://www.zdnet.com/article/new-raspberry-pi-4-update-beta-lets-you-boot-from-a-usb-mass-storage-device/>
 
 ---
 
