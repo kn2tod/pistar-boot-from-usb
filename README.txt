@@ -1,7 +1,8 @@
-Booting Pi-Star from a USB on a Pi4!
+Booting Pi-Star from a USB on a Pi3B+ and Pi4's!
 
 Modifications can be made to an existing or new image of a Pi-Star
-system such that it can boot from USB's directly on Raspberry Pi4's.
+system such that it can boot from USB's directly on Raspberry Pi3B+'s
+and Pi4's.
 
 All the current Pi-Star versions are hard-wired to use Micro SD (block)
 devices. The key is to rewire the installation image to use a generic 
@@ -12,9 +13,11 @@ has never been brought forward into the current images of Pi-Star.)
 
 This modification is both simple AND tranparent: it does not effect the
 continued use of systems running off mSD cards, but IS required to be 
-able to boot from uSD ports on Pi4's.
+able to boot from uSD ports on Pi3B+'s and Pi4's.
 
-Note:  ONLY Pi4's CAN BOOT DIRECTLY FROM USB PORTS!
+Note:  applicable Pi3B+'s and Pi4's must have the lastest EEPROM updates
+and the proper configuration options set to be able to boot directly from
+USB ports.
 
 [For the purposes of this documention, the term "mSD" is used to denote
 MultiMedia cards (commonly referred to as "micro" cards), typically used
@@ -140,8 +143,8 @@ B) The system modifications in step 2 can be applied to any system; their effect
   then be cloned for implementation and subsequent configuration on ANY Raspberry model.
 
 C) Dropping Pi-Star configuration backups from existing systems into the /boot directory 
-  at this step makes this an easy way to migrate to better hardware (uSD's and Pi4's) at the 
-  same time.
+  at this step makes this an easy way to migrate to better hardware (uSD's and Pi3B+'s and
+  Pi4's) at the same time.
 
 
 ---
